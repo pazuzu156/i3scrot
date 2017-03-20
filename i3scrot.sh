@@ -31,7 +31,7 @@ Built for easy use in i3
 USAGE: i3scrot <OPTIONS> [PATH]
 
 Options:
---fullscreen | -f - Take fullscreen screenshot (default)
+--fullscreen | -f - Take fullscreen screenshot
 --window     | -w - Take screenshot of active window
 --select     | -s - Take screenshot of selected region
 --help       | -h - Display this help message
