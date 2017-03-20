@@ -13,8 +13,8 @@ You can do so quickly with the -s flag to install dependencies with the build.
 `makepkg -sifc`
 
 `-s` - Install dependencies  
-`-i` - Install upon completion of build process
-`-f` - Force build if already completed once
+`-i` - Install upon completion of build process  
+`-f` - Force build if already completed once  
 `-c` - Clean up src and pkg upon successful build/packaging
 
 ### AUR
