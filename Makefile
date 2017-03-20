@@ -1,5 +1,5 @@
 install:
-	install -D -m755 i3scrot.sh /usr/bin/i3scrot
+	install -D -m755 i3scrot.sh ${PREFIX}/bin/i3scrot
 
 uninstall:
-	rm -rf /usr/bin/i3scrot
+	rm -rf ${PREFIX}/bin/i3scrot
