@@ -38,6 +38,8 @@ if [ -z ${NOTIFY+x} ] ; then
     NOTIFY=false
 fi
 
+ECHOMSG=true
+
 # get cmd args
 case "$1" in
     --fullscreen|-f|$NULL)
@@ -51,9 +53,11 @@ case "$1" in
         ;;
     --help|-h)
         echo "${HELPMSG}"
+        ECHOMSG=false
         ;;
     --version|-v)
         echo "${VERSIONMSG}"
+        ECHOMSG=false
         ;;
     *)
         echo "Invalid arguments!
@@ -66,6 +70,8 @@ esac
 if ${NOTIFY} ; then
     notify-send -a ${APPNME} -u normal "${SSMSG}"
 else
-    echo "${SSMSG}"
+    if ${ECHOMSG} ; then
+        echo "${SSMSG}"
+    fi
 fi
 
