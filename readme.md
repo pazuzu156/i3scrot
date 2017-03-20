@@ -1,19 +1,31 @@
-# i3scrot
-This is a simple shell script made for taking screenshots with scrot
+# Arch Linux PKGBUILD
+This branch houses the PKGBUILD script used to install i3scrot in Arch Linux
 
 ## Info
-While i3scrot is made to be used with i3, it's not required. You can just as easily use it in whatever you want to.
+You can either install i3scrot via this branch, or from the AUR
 
-## Installing
-If you wish to install with i3, the Makefile will do that. Otherwise, edit the Makefile with the filename you want to call it, or don't! Doesn't matter.
+## Install
+### PKGBUILD
+You need to build the package and install scrot (the required package)
 
-To install, define a prefix (or don't, don't HAVE to): `$ sudo PREFIX=/usr make install`
+You can do so quickly with the -s flag to install dependencies with the build.
 
-## Uninstall
-Run `$ sudo PREFIX=/usr make uninstall`
+`makepkg -sifc`
 
-Or if you were a dummy and deleted the code: `$ sudo rm -rf $PREFIX/bin/i3scrot`  
-`$PREFIX` being the `PREFIX=` you defined in the install
+`-s` - Install dependencies  
+`-i` - Install upon completion of build process
+`-f` - Force build if already completed once
+`-c` - Clean up src and pkg upon successful build/packaging
 
-## Contrinuting
-Wanna hack i3scrot? Do so! Fork it. Want to see your changes in here! Make a pull request!
+### AUR
+Using your favorite AUR tool, install `i3scrot-git`
+
+`$ yaourt -S i3scrot-git`
+
+## Conflicts
+i3scrot conflicts with i3-scrot. There can be only one!
+
+## PGP
+The package is built and signed with my PGP key, you can get my key for building via gpg
+
+`$ gpg --keyserver hkp://pgp.mit.edu --recv-key E33FF70C`
