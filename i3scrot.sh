@@ -21,10 +21,10 @@ HELPMSG="This shell script allows using scrot easily anywhere.
 Built for easy use in i3
 
 Options:
---desk   | -d - Take fullscreen screenshot (default)
---window | -w - Take screenshot of active window
---select | -s - Take screenshot of selected region
---help   | -h - Display this help message
+--fullscreen | -f - Take fullscreen screenshot (default)
+--window     | -w - Take screenshot of active window
+--select     | -s - Take screenshot of selected region
+--help       | -h - Display this help message
 
 Screenshots are placed in ${SSDIR}
 "
@@ -34,19 +34,21 @@ if ! [ -d ${SSDIR} ] ; then
     mkdir ${SSDIR}
 fi
 
+NOFITY=false
+
 # get cmd args
 case "$1" in
-    --desk|-d|$NULL)
+    --fullscreen|-f|$NULL)
         scrot ${SSPATH}
-        notify-send -a ${APPNAME} -u normal "${SSMSG}"
+        NOTIFY=true
         ;;
     --window|-w)
         scrot -u ${SSPATH}
-        notify-send -a ${APPNAME} -u normal "${SSMSG}"
+        NOTIFY=true
         ;;
     --select|-s)
         scrot -s ${SSPATH}
-        notify-send -a ${APPNAME} -u normal "${SSMSG}"
+        NOTIFY=true
         ;;
     --help|-h)
         echo "${HELPMSG}"
@@ -60,4 +62,10 @@ case "$1" in
 ${HELPMSG}"
         ;;
 esac
+
+# Do you wanna notify?
+if ${NOTIFY} ; then
+    notify-send -a ${APPNME} -u normal "${SSMSG}"
+    echo "${SSMSG}"
+fi
 
