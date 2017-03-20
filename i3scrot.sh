@@ -9,7 +9,15 @@ source ${CONFIG}
 
 APPNAME="i3scrot"
 SSDIR=${SCREENSHOTS_DIR}
-SSPATH=${SSDIR}/Screenshot_$(date "+%Y-%m-%d_%H-%M-%S").png
+IMGNAME=Screenshot_$(date "+%Y-%m-%d_%H-%M-%S").png
+SSPATH=${SSDIR}/${IMGNAME}
+
+# Rework SSPATH if path given
+if ! [ -z ${2+x} ] ; then
+    SSDIR=$2
+    SSPATH=${SSDIR}/${IMGNAME}
+fi
+
 SSMSG="Screeshot saved at ${SSPATH}"
 VERSION=1.0
 CREATOR="Kaleb Klein <klein.jae@gmail.com>"
@@ -19,6 +27,8 @@ Created By: ${CREATOR}
 "
 HELPMSG="This shell script allows using scrot easily anywhere.
 Built for easy use in i3
+
+USAGE: i3scrot <OPTIONS> [PATH]
 
 Options:
 --fullscreen | -f - Take fullscreen screenshot (default)
@@ -60,9 +70,7 @@ case "$1" in
         ECHOMSG=false
         ;;
     *)
-        echo "Invalid arguments!
-
-${HELPMSG}"
+        echo "Error: \"$1\" is not a recognized option!"
         ;;
 esac
 
