@@ -34,21 +34,20 @@ if ! [ -d ${SSDIR} ] ; then
     mkdir ${SSDIR}
 fi
 
-NOFITY=false
+if [ -z ${NOTIFY+x} ] ; then
+    NOTIFY=false
+fi
 
 # get cmd args
 case "$1" in
     --fullscreen|-f|$NULL)
         scrot ${SSPATH}
-        NOTIFY=true
         ;;
     --window|-w)
         scrot -u ${SSPATH}
-        NOTIFY=true
         ;;
     --select|-s)
         scrot -s ${SSPATH}
-        NOTIFY=true
         ;;
     --help|-h)
         echo "${HELPMSG}"
@@ -66,6 +65,7 @@ esac
 # Do you wanna notify?
 if ${NOTIFY} ; then
     notify-send -a ${APPNME} -u normal "${SSMSG}"
+else
     echo "${SSMSG}"
 fi
 
