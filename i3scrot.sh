@@ -42,7 +42,7 @@ ECHOMSG=true
 
 # get cmd args
 case "$1" in
-    --fullscreen|-f|$NULL)
+    --fullscreen|-f)
         scrot ${SSPATH}
         ;;
     --window|-w)
@@ -51,7 +51,7 @@ case "$1" in
     --select|-s)
         scrot -s ${SSPATH}
         ;;
-    --help|-h)
+    --help|-h|$NULL)
         echo "${HELPMSG}"
         ECHOMSG=false
         ;;
