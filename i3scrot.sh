@@ -3,13 +3,20 @@ CONFIG=${HOME}/.config/i3/i3scrot.conf
 
 if ! [ -f ${CONFIG} ] ; then
     echo "SCREENSHOTS_DIR=\${HOME}/Pictures/Screenshots" > ${CONFIG}
+    echo "SCREENSHOT_EXT=jpg" >> ${CONFIG}
 fi
 
 source ${CONFIG}
+# This allows the user to define EXT= before calling i3scrot
+# for changing the extension temporarily. Edit ~/.config/i3/i3scrot.conf
+# to perminantly change that
+if [ -z ${EXT+x} ] ; then
+    EXT=${SCREENSHOT_EXT}
+fi
 
 APPNAME="i3scrot"
 SSDIR=${SCREENSHOTS_DIR}
-IMGNAME=Screenshot_$(date "+%Y-%m-%d_%H-%M-%S").png
+IMGNAME=Screenshot_$(date "+%Y-%m-%d_%H-%M-%S").${EXT}
 SSPATH=${SSDIR}/${IMGNAME}
 
 # Rework SSPATH if path given
