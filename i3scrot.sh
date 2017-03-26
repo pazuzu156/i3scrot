@@ -51,8 +51,9 @@ if ! [ -d ${SSDIR} ] ; then
     mkdir ${SSDIR}
 fi
 
+# Setting notify default to true
 if [ -z ${NOTIFY+x} ] ; then
-    NOTIFY=false
+    NOTIFY=true
 fi
 
 ECHOMSG=true
