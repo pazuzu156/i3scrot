@@ -84,7 +84,7 @@ esac
 
 # Do you wanna notify?
 if ${NOTIFY} ; then
-    notify-send -a ${APPNME} -u normal "${SSMSG}"
+    notify-send -a ${APPNAME} -u normal "${SSMSG}"
 else
     if ${ECHOMSG} ; then
         echo "${SSMSG}"
