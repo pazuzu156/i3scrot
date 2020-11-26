@@ -1,92 +1,76 @@
 #!/bin/bash
-CONFIG=${HOME}/.config/i3/i3scrot.conf
+# /usr/bin/i3-scrot
+#
+# simple screenshot-script using scrot for manjaro-i3 by oberon@manjaro.org
 
-if ! [ -f ${CONFIG} ] ; then
-    echo "SCREENSHOTS_DIR=\${HOME}/Pictures/Screenshots" > ${CONFIG}
-    echo "SCREENSHOT_EXT=jpg" >> ${CONFIG}
+_conf=$HOME/.config/i3-scrot.conf
+
+if ! [ -f $_conf ]; then
+	echo "scrot_dir=$(xdg-user-dir PICTURES)" > $_conf
 fi
 
-source ${CONFIG}
-# This allows the user to define EXT= before calling i3scrot
-# for changing the extension temporarily. Edit ~/.config/i3/i3scrot.conf
-# to perminantly change that
-if [ -z ${EXT+x} ] ; then
-    EXT=${SCREENSHOT_EXT}
+source $_conf
+
+if ! [ -d $scrot_dir ]; then
+	mkdir -p $scrot_dir
 fi
 
-APPNAME="i3scrot"
-SSDIR=${SCREENSHOTS_DIR}
-IMGNAME=Screenshot_$(date "+%Y-%m-%d_%H-%M-%S").${EXT}
-SSPATH=${SSDIR}/${IMGNAME}
-
-# Rework SSPATH if path given
-if ! [ -z ${2+x} ] ; then
-    SSDIR=$2
-    SSPATH=${SSDIR}/${IMGNAME}
+if ! [[ -z "$2" ]]; then
+    cmd="i3-msg -q exec \"cd $scrot_dir && scrot -d $2\""
+else
+    cmd="i3-msg -q exec \"cd $scrot_dir && scrot\""
 fi
 
-SSMSG="Screeshot saved at ${SSPATH}"
-VERSION=1.0
-CREATOR="Kaleb Klein <klein.jae@gmail.com>"
-VERSIONMSG="${APPNAME}
-Version: ${VERSION}
-Created By: ${CREATOR}
-"
-HELPMSG="This shell script allows using scrot easily anywhere.
-Built for easy use in i3
-
-USAGE: i3scrot <OPTIONS> [PATH]
-
-Options:
---fullscreen | -f - Take fullscreen screenshot
---window     | -w - Take screenshot of active window
---select     | -s - Take screenshot of selected region
---help       | -h - Display this help message
-
-Screenshots are placed in ${SSDIR}
-"
-
-# Create screenshots dir if not exist
-if ! [ -d ${SSDIR} ] ; then
-    mkdir ${SSDIR}
-fi
-
-if [ -z ${NOTIFY+x} ] ; then
-    NOTIFY=false
-fi
-
-ECHOMSG=true
-
-# get cmd args
 case "$1" in
-    --fullscreen|-f)
-        scrot ${SSPATH}
-        ;;
-    --window|-w)
-        scrot -u ${SSPATH}
-        ;;
-    --select|-s)
-        scrot -s ${SSPATH}
-        ;;
-    --help|-h|$NULL)
-        echo "${HELPMSG}"
-        ECHOMSG=false
-        ;;
-    --version|-v)
-        echo "${VERSIONMSG}"
-        ECHOMSG=false
-        ;;
-    *)
-        echo "Error: \"$1\" is not a recognized option!"
-        ;;
+	--desk|-d|$NULL)
+	        $cmd &&
+		sleep 1 &&
+		notify-send "screenshot has been saved in $scrot_dir"
+		;;
+	--window|-w)
+		$cmd -u &&
+		sleep 1 &&
+		notify-send "screenshot has been saved in $scrot_dir"
+		;;
+	--select|-s)
+		notify-send 'select an area for the screenshot' &
+		i3-msg -q exec "cd $scrot_dir && scrot -s && sleep 1 && notify-send 'screenshot has been saved in $scrot_dir'"
+		;;
+	--help|-h)
+		echo "
+available options:
+-d | --desk    full screen
+-w | --window  active window
+-s | --select  selection
+-h | --help    display this information
+
+The -d or -w options can be used with a delay
+by adding the number of seconds, like for example:
+'i3-scrot -w 5'
+
+Default option is 'full screen'.
+
+The file destination can be set in ${_conf}.
+Default is $scrot_dir
+"
+		;;
+	*)
+		echo "
+== ! i3-scrot: missing or wrong argument ! ==
+
+available options:
+-d | --desk    full screen
+-w | --window  active window
+-s | --select  selection
+-h | --help    display this information
+
+Default option is 'full screen'.
+
+The file destination can be set in ${_conf}.
+Default is $scrot_dir
+"
+
+        exit 2
 esac
 
-# Do you wanna notify?
-if ${NOTIFY} ; then
-    notify-send -a ${APPNME} -u normal "${SSMSG}"
-else
-    if ${ECHOMSG} ; then
-        echo "${SSMSG}"
-    fi
-fi
-
+exit 0
