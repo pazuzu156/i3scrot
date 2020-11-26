@@ -1,9 +1,6 @@
 # i3scrot
 This is a simple shell script made for taking screenshots with scrot
 
-## Info
-While i3scrot is made to be used with i3, it's not required. You can just as easily use it in whatever you want to.
-
 ## Installing
 If you wish to install with i3, the Makefile will do that. Otherwise, edit the Makefile with the filename you want to call it, or don't! Doesn't matter.
 
